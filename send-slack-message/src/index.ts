@@ -1,19 +1,17 @@
-import {getInput, setFailed} from "@actions/core"
-import {IncomingWebhook} from "@slack/webhook"
+import { getInput, setFailed } from "@actions/core"
+import { IncomingWebhook } from "@slack/webhook"
 
-const icon_emoji = getInput('icon')
 const text = getInput('message')
 const channel = getInput('channel')
-const webhook = new IncomingWebhook(process.env["SLACK_WEBHOOK"]);
 
-function run() {
+function run(url: string) {
+  const webhook = new IncomingWebhook(url);
   webhook.send({
     text,
-    channel,
-    icon_emoji
+    channel
   }).catch(err => {
     setFailed(err.message)
   })
 }
 
-run()
+run(process.env["SLACK_WEBHOOK"])
