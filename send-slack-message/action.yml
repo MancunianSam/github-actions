@@ -1,0 +1,15 @@
+name: 'Send to Slack'
+description: 'Sends a message to Slack'
+inputs:
+  icon:  # id of input
+    description: 'The icon emoji of the message'
+    required: true
+  message:
+    description: 'The message to send'
+    required: true
+  channel:
+    description: 'The channel to send to'
+    required: true
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
