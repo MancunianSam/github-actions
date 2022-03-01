@@ -24,3 +24,4 @@ jobs:
         id: increment
         with:
           repo_name: tdr-${{ inputs.repo_name }}
+      - run: echo ${{ steps.increment.outputs.next_version }}
