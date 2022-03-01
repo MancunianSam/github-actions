@@ -40,8 +40,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
         run: |
           MANAGEMENT_ACCOUNT=${{ secrets.MANAGEMENT_ACCOUNT }} sbt assembly
-          docker build -t ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/${{ inputs.repoName }}:${{ steps.increment.outputs.next_version }} .
-          docker push ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/${{ inputs.repoName }}:${{ steps.increment.outputs.next_version }}
+          docker build -t ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/${{ inputs.repo_name }}:${{ steps.increment.outputs.next_version }} .
+          docker push ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/${{ inputs.repo_name }}:${{ steps.increment.outputs.next_version }}
           git tag ${{ steps.increment.outputs.next_version }}
           git push origin ${{ steps.increment.outputs.next_version }}
       - name: Deploy to integration
