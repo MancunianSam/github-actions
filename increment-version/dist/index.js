@@ -11453,6 +11453,7 @@ __nccwpck_require__.r(__webpack_exports__);
 const repoName = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("repo_name");
 const octokit = new _octokit_rest__WEBPACK_IMPORTED_MODULE_2__/* .Octokit */ .v();
 axios__WEBPACK_IMPORTED_MODULE_1___default().get(`https://api.github.com/repos/nationalarchives/tdr-${repoName}/tags`).then(res => {
+    console.log(res.data.data);
     (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("next_version", (parseInt(res.data.data[0].name) + 1).toString());
 }).catch(err => (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(err));
 
