@@ -1,5 +1,5 @@
-import {Octokit} from "@octokit/rest";
-import {getInput, setFailed, setOutput} from "@actions/core";
+import {getInput, setFailed, setOutput} from '@actions/core'
+import {Octokit} from '@octokit/rest'
 
 export async function run(): Promise<void> {
   const octokit = new Octokit()
