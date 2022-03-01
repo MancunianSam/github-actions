@@ -1,0 +1,5 @@
+name: 'Increment version'
+description: 'Gets the most recent tag and increments by one'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
