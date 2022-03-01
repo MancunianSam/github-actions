@@ -8367,7 +8367,7 @@ __nccwpck_require__.r(__webpack_exports__);
 const repo = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("repo_name");
 const octokit = new _octokit_rest__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .v();
 octokit.repos.listTags({ repo, owner: "nationalarchives" }).then(res => {
-    (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("next_version", (parseInt(res.data[0].name) + 1).toString());
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("next_version", `v${parseInt(res.data[0].name.slice(1)) + 1}`);
 }).catch(err => (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(err));
 
 })();
