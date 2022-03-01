@@ -4,6 +4,7 @@ on:
     inputs:
       repo_name:
         required: true
+        type: string
     secrets:
       MANAGEMENT_ACCOUNT:
         required: true
