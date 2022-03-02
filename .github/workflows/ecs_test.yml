@@ -18,6 +18,8 @@ jobs:
     steps:
       - uses: coursier/cache-action@v6
       - uses: MancunianSam/github-actions/.github/actions/run-git-secrets@main
+        with:
+          slack-url: ${{ secrets.SLACK_WEBHOOK }}
       - name: Configure AWS credentials from management account
         uses: aws-actions/configure-aws-credentials@v1
         with:

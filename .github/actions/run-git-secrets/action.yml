@@ -4,6 +4,9 @@ inputs:
   repo-name:
     description: 'Repository name'
     required: true
+  slack-url:
+    description: 'The slack webhook'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -13,3 +16,4 @@ runs:
       if: failure()
       with:
         message: Secrets found in repository
+        slack-url: ${{ inputs.slack-url }}
