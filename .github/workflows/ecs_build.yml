@@ -20,7 +20,7 @@ jobs:
     environment: intg
     steps:
       - uses: actions/checkout@v2
-      - uses: build-docker-image
+      - uses: build-docker-image@main
         id: increment
         with:
           who-to-greet: bob
