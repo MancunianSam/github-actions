@@ -20,15 +20,7 @@ jobs:
     environment: intg
     steps:
       - uses: actions/checkout@v2
-      - uses: MancunianSam/github-actions/increment-version@main
+      - uses: build-docker-image
         id: increment
         with:
-          repo_name: tdr-${{ inputs.repo_name }}
-      - uses: MancunianSam/github-actions/docker-action@main
-        id: docker
-      - run: |
-              echo ${{ steps.increment.outputs.next_version }}
-              echo ${{ steps.increment.outputs.files }}
-              echo ${{ steps.increment.outputs.pwd }}
-              echo ${{ steps.docker.outputs.files }}
-              echo ${{ steps.docker.outputs.pwd }}
+          who-to-greet: bob
