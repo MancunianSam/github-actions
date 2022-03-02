@@ -25,7 +25,7 @@ jobs:
         if: failure()
         with:
           message: Secrets found in repository ${{ inputs.repo_name }}
-          slack-url: ${{ inputs.slack-url }}
+          slack-url: ${{ secrets.SLACK_WEBHOOK }}
       - name: Configure AWS credentials from management account
         uses: aws-actions/configure-aws-credentials@v1
         with:
