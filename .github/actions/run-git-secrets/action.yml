@@ -1,25 +1,5 @@
-name: 'Hello World'
-description: 'Greet someone'
-inputs:
-  repo-name:
-    description: 'Repository name'
-    required: true
-  slack-url:
-    description: 'The slack webhook'
-    required: true
+name: 'Git Secrets'
+description: 'Runs git secrets'
 runs:
-  using: "composite"
-  steps:
-    - run: |
-        git clone https://github.com/awslabs/git-secrets.git
-        make install -C git-secrets
-        git-secrets --register-aws --global
-        git-secrets --add --global '([^0-9])*[0-9]{12}([^0-9])*'
-        git-secrets --add --global --allowed '1234'
-        git-secrets --scan
-      shell: bash
-    - uses: MancunianSam/github-actions/.github/actions/slack-send@main
-      if: failure()
-      with:
-        message: Secrets found in repository ${{ inputs.repo_name }}
-        slack-url: ${{ inputs.slack-url }}
+  using: 'docker'
+  image: 'Dockerfile'
