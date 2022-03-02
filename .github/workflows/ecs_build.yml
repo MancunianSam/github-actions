@@ -24,4 +24,11 @@ jobs:
         id: increment
         with:
           repo_name: tdr-${{ inputs.repo_name }}
-      - run: echo ${{ steps.increment.outputs.next_version }}
+      - uses: MancunianSam/github-actions/docker-action@main
+        id: docker
+      - run: |
+              echo ${{ steps.increment.outputs.next_version }}
+              echo ${{ steps.increment.outputs.files }}
+              echo ${{ steps.increment.outputs.pwd }}
+              echo ${{ steps.docker.outputs.files }}
+              echo ${{ steps.docker.outputs.pwd }}
