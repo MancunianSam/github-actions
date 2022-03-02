@@ -1,5 +1,6 @@
 FROM alpine
-RUN git clone https://github.com/awslabs/git-secrets.git && \
+RUN apk add --no-cache git make && \
+    git clone https://github.com/awslabs/git-secrets.git && \
     make install -C git-secrets && \
     git-secrets --register-aws --global && \
     git-secrets --add --global '([^0-9])*[0-9]{12}([^0-9])*' && \
