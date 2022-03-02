@@ -16,10 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: intg
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - uses: coursier/cache-action@v6
-      - uses: MancunianSam/github-actions/.github/actions/run-git-secrets
+      - uses: MancunianSam/github-actions/.github/actions/run-git-secrets@main
       - name: Configure AWS credentials from management account
         uses: aws-actions/configure-aws-credentials@v1
         with:

@@ -17,7 +17,6 @@ permissions:
 jobs:
   pre-deploy:
     runs-on: ubuntu-latest
-    environment: intg
     steps:
       - uses: actions/checkout@v2
       - uses: MancunianSam/github-actions/.github/actions/build-docker-image@main
