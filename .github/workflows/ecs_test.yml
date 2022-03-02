@@ -26,7 +26,7 @@ jobs:
       - uses: MancunianSam/github-actions/.github/actions/slack-send@main
         if: failure()
         with:
-          message: Secrets found in repository ${{ inputs.repo_name }}
+          message: ":warning: Secrets found in repository ${{ inputs.repo-name }}"
           slack-url: ${{ secrets.SLACK_WEBHOOK }}
       - name: Configure AWS credentials from management account
         uses: aws-actions/configure-aws-credentials@v1
