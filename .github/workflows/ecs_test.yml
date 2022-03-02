@@ -2,6 +2,9 @@ name: TDR Tag and pre deploy
 on:
   workflow_call:
     inputs:
+      repo-name:
+        required: true
+        type: string
       test_command:
         required: true
         type: string
@@ -20,6 +23,7 @@ jobs:
       - uses: MancunianSam/github-actions/.github/actions/run-git-secrets@main
         with:
           slack-url: ${{ secrets.SLACK_WEBHOOK }}
+          repo-name: ${{ inputs.repo-name }}
       - name: Configure AWS credentials from management account
         uses: aws-actions/configure-aws-credentials@v1
         with:
