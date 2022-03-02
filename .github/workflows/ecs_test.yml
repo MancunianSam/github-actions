@@ -9,9 +9,6 @@ on:
       MANAGEMENT_ACCOUNT:
         required: true
 
-permissions:
-  id-token: write
-  contents: write
 jobs:
   pre-deploy:
     runs-on: ubuntu-latest
