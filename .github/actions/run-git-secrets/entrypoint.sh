@@ -1,8 +1,5 @@
 #!/bin/sh -l
-echo $(pwd)
-echo $(ls)
-echo $1
-echo $(git secrets --list --global)
-git secrets --list --global
-echo $(git-secrets --scan)
+git-secrets --register-aws --global && \
+git-secrets --add --global '([^0-9])*[0-9]{12}([^0-9])*'
+git-secrets --add --global --allowed '1234'
 git-secrets --scan
