@@ -1,9 +1,5 @@
 name: 'Git Secrets'
 description: 'Runs git secrets'
-inputs:
-  repo-name:
-    description: 'The repository name'
-    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
