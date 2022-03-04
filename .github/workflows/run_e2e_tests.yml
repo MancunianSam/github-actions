@@ -12,6 +12,16 @@ on:
         type: string
         required: false
         default: 'intg'
+    secrets:
+      ACCOUNT_NUMBER:
+        required: true
+      MANAGEMENT_ACCOUNT:
+        required: true
+      USER_ADMIN_SECRET:
+        required: true
+      BACKEND_CHECKS_SECRET:
+        required: true
+
 permissions:
   id-token: write
   contents: read
@@ -68,7 +78,7 @@ jobs:
       - name: Run Tests
         env:
           DRIVER_LOCATION: ${{ needs.setup-e2e-tests.outputs.driver }}
-        run: CUCUMBER_PUBLISH_TOKEN=${{ secrets.CUCUMBER_PUBLISH_TOKEN }} sbt test -Daccount.number=${{ secrets.ACCOUNT_NUMBER }} -Dconfig.file=./src/test/resources/application.${{ needs.setup-e2e-tests.outputs.environment }}.conf -Dkeycloak.user.admin.secret=${{ secrets.USER_ADMIN_SECRET }} -Dkeycloak.backendchecks.secret=${{ secrets.BACKEND_CHECKS_SECRET }} -Dbrowser=firefox -Dcucumber.features=./src/test/resources/features/${{ matrix.file }}
+        run: sbt test -Daccount.number=${{ secrets.ACCOUNT_NUMBER }} -Dconfig.file=./src/test/resources/application.${{ needs.setup-e2e-tests.outputs.environment }}.conf -Dkeycloak.user.admin.secret=${{ secrets.USER_ADMIN_SECRET }} -Dkeycloak.backendchecks.secret=${{ secrets.BACKEND_CHECKS_SECRET }} -Dbrowser=firefox -Dcucumber.features=./src/test/resources/features/${{ matrix.file }}
       - name: Configure AWS credentials
         if: ${{ always() }}
         uses: aws-actions/configure-aws-credentials@v1
