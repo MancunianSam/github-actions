@@ -47,8 +47,8 @@ jobs:
         shell: python
       - id: get-role-name
         run: |
-          title_env = ${{ inputs }}".title()
-          print f"::set-output name=role-name::TDRUpdateWAFAndSecurityGroupsRole{title_env}
+          title_env = "${{ inputs }}".title()
+          print f"::set-output name=role-name::TDRUpdateWAFAndSecurityGroupsRole{title_env}"
         shell: python
       - name: Set feature file names
         id: generate-files
