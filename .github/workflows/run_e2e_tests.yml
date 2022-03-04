@@ -45,8 +45,11 @@ jobs:
               driver = "gecko" if "${{ inputs.driver }}" == "Firefox" else "chrome"  
               print(f"::set-output name=driver::/usr/local/share/{driver}_driver/{driver}driver")
         shell: python
-      id: get-role-name
-      run: print "::set-output name=role-name::TDRUpdateWAFAndSecurityGroupsRole${{ inputs }}".title()
+      - id: get-role-name
+        run: |
+          title_env = ${{ inputs }}".title()
+          print f"::set-output name=role-name::TDRUpdateWAFAndSecurityGroupsRole{title_env}
+        shell: python
       - name: Set feature file names
         id: generate-files
         run: |
