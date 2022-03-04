@@ -29,11 +29,12 @@ concurrency: env.ENVIRONMENT
 jobs:
   setup-e2e-tests:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment != '' && github.event.inputs.environment || 'intg' }}
+    environment: ${{ github.event.inputs.environment }}
     outputs:
       files: ${{ steps.generate-files.outputs.files }}
       environment: ${{ github.event.inputs.environment }}
       driver: ${{ steps.get-driver.outputs.driver }}
+      role-name: ${{ steps.get-role-name.outputs.role-name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,8 +43,10 @@ jobs:
       - id: get-driver
         run:  |
               driver = "gecko" if "${{ inputs.driver }}" == "Firefox" else "chrome"  
-              print("::set-output name=driver::/usr/local/share/${driver}_driver/${driver}driver")
+              print(f"::set-output name=driver::/usr/local/share/{driver}_driver/{driver}driver")
         shell: python
+      id: get-role-name
+      run: print "::set-output name=role-name::TDRUpdateWAFAndSecurityGroupsRole${{ inputs }}".title()
       - name: Set feature file names
         id: generate-files
         run: |
@@ -64,7 +67,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/TDRUpdateWAFAndSecurityGroupsRole${{ secrets.TITLE_STAGE }}
+          role-to-assume: ${{ needs.setup-e2e-tests.outputs.role-name }}
           aws-region: eu-west-2
           role-session-name: UpdateWAF
       - name: Update security group
@@ -83,7 +86,7 @@ jobs:
         if: ${{ always() }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/TDRUpdateWAFAndSecurityGroupsRole${{ secrets.TITLE_STAGE }}
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ needs.setup-e2e-tests.outputs.role-name }}
           aws-region: eu-west-2
           role-session-name: UpdateWAF
       - name: Remove access
