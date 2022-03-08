@@ -2,7 +2,10 @@ name: TDR Tag and pre deploy
 on:
   workflow_call:
     inputs:
-      repo_name:
+      repo-name:
+        required: true
+        type: string
+      build-command:
         required: true
         type: string
     secrets:
@@ -19,7 +22,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: MancunianSam/github-actions/.github/actions/build-docker-image@main
-        id: increment
+      - uses: coursier/cache-action@v6
+      - name: Configure AWS credentials from management account
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          who-to-greet: bob
+          role-to-assume: arn:aws:iam::${{ secrets.MANAGEMENT_ACCOUNT }}:role/TDRGithubActionsRoleMgmt
+          aws-region: eu-west-2
+          role-session-name: APIDownloadDependencies
+      - name: Login to ECR
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com
+      - run: pip install requests
+      - id: next-tag
+        run: |
+          import requests
+          json = requests.get("${{ github.api_url }}/repos/nationalarchives/${{ repo-name }}/tags").json()
+          print(f"::set-output name=new-version::v{int(json[0]['name'][1:4]) + 1}")
+      - name: Build new image version
+        env:
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
+        run: |
+          docker build -f Dockerfile-tests -t tests .
+          ${{ build-command }}
+          docker build -t ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/consignment-api:${{ steps.next-tag.outputs.new-version }} .
+          docker push ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/consignment-api:${{ steps.next-tag.outputs.new-version }}
+          git tag ${{ steps.next-tag.outputs.new-version }}
+          git push origin ${{ steps.next-tag.outputs.new-version }}
+  deploy:
+    uses: MancunianSam/github-actions/.github/workflows/ecs_deploy.yml@main
