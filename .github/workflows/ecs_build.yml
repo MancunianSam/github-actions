@@ -39,7 +39,7 @@ jobs:
       - id: next-tag
         run: |
           import requests
-          json = requests.get("${{ github.api_url }}/repos/nationalarchives/${{ repo-name }}/tags").json()
+          json = requests.get("${{ github.api_url }}/repos/nationalarchives/${{ github.event.inputs.repo-name }}/tags").json()
           print(f"::set-output name=new-version::v{int(json[0]['name'][1:4]) + 1}")
       - name: Build new image version
         env:
