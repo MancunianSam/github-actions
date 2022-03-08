@@ -5,7 +5,7 @@ on:
       repo-name:
         required: true
         type: string
-      test_command:
+      test-command:
         required: true
         type: string
     secrets:
@@ -34,4 +34,4 @@ jobs:
           aws-region: eu-west-2
           role-session-name: APIDownloadDependencies
       - uses: coursier/cache-action@v6
-      - run: ${{ inputs.test_command }}
+      - run: ${{ inputs.test-command }}

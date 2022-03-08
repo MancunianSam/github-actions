@@ -49,5 +49,3 @@ jobs:
           docker push ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/consignment-api:${{ steps.next-tag.outputs.new-version }}
           git tag ${{ steps.next-tag.outputs.new-version }}
           git push origin ${{ steps.next-tag.outputs.new-version }}
-  deploy:
-    uses: MancunianSam/github-actions/.github/workflows/ecs_deploy.yml@main
