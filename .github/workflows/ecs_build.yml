@@ -45,7 +45,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
         run: |
-          ${{ build-command }}
+          ${{ github.event.inputs.build-command }}
           docker build -t ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/consignment-api:${{ steps.next-tag.outputs.new-version }} .
           docker push ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/consignment-api:${{ steps.next-tag.outputs.new-version }}
           git tag ${{ steps.next-tag.outputs.new-version }}
