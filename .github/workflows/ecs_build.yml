@@ -13,6 +13,10 @@ on:
         required: true
       WORKFLOW_PAT:
         required: true
+    outputs:
+      new-version:
+        description: "The next version of the project"
+        value: ${{ jobs.pre-deploy.outputs.new-version }}
 
 permissions:
   id-token: write
