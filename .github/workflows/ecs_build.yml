@@ -20,6 +20,8 @@ permissions:
 jobs:
   pre-deploy:
     runs-on: ubuntu-latest
+    outputs:
+      next-tag: ${{ steps.next-tag.outputs.new-version }}
     steps:
       - uses: actions/checkout@v2
       - uses: coursier/cache-action@v6
@@ -43,7 +45,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
         run: |
-          docker build -f Dockerfile-tests -t tests .
           ${{ build-command }}
           docker build -t ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/consignment-api:${{ steps.next-tag.outputs.new-version }} .
           docker push ${{ secrets.MANAGEMENT_ACCOUNT }}.dkr.ecr.eu-west-2.amazonaws.com/consignment-api:${{ steps.next-tag.outputs.new-version }}

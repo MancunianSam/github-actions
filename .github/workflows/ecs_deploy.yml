@@ -19,6 +19,8 @@ on:
         required: true
       WORKFLOW_PAT:
         required: true
+      SLACK_WEBHOOK:
+        required: true
 
 permissions:
   id-token: write
