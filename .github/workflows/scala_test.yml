@@ -35,5 +35,5 @@ jobs:
           role-session-name: APIDownloadDependencies
       - uses: coursier/cache-action@v6
       - run: | 
-        git tag test-tag
-        git push origin test-tag
+          git tag test-tag
+          git push origin test-tag
